@@ -26,23 +26,24 @@ public class Match
     {
         double winChance = _winChance / this.Total;
         double tieChance = _tieChance / this.Total;
-        double lossChance = winChance + tieChance;
+        double lossChance = _lossChance / this.Total;
+
+        double lossThreshold = winChance + tieChance;
 
         double matchResult = RNG.GenerateMatchResult();
 
-        Console.WriteLine($"  Win chance: {_winChance} ({winChance:F2}%)");
-        double trueLossChance = _lossChance / this.Total;
-        Console.WriteLine($"  Loss chance: {_lossChance} ({trueLossChance:F2}%)");
+        Console.WriteLine($"  Win chance: {_winChance} ({(winChance * 100):F2}%)");
+        Console.WriteLine($"  Loss chance: {_lossChance} ({(lossChance * 100):F2}%)");
         Console.ReadLine();
 #if DEBUG
-        Console.WriteLine($"Roll: {matchResult:F2} (Win <= {winChance:F2}; Loss >= {lossChance:F2})");
+        Console.WriteLine($"Roll: {matchResult:F4} (Win <= {winChance:F4}; Loss >= {lossThreshold:F4})");
         
 #endif
         if (matchResult <= winChance)
         {
             return MatchResult.Win;
         }
-        else if (matchResult >= lossChance)
+        else if (matchResult >= lossThreshold)
         {
             return MatchResult.Loss;
         }
