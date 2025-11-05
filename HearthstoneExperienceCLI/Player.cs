@@ -23,15 +23,9 @@ public class Player(string name)
             return;
         }
 
-        this.Gold += this.Deck.DeckType switch
-        {
-            DeckType.Tier1 => 1,
-            DeckType.Tier2 => 2,
-            DeckType.Tier3 => 3,
-            DeckType.Tier4 => 4,
-            DeckType.OffMeta => RNG.GenerateOffMetaDeckGold(),
-            _ => throw new NotImplementedException()
-        };
+        int sellValue = this.Deck.SellValue;
+        this.Gold += sellValue;
+        Console.WriteLine($"{this.Name} sold their {this.Deck.DeckTypeString} deck for {sellValue} gold.");
     }
 
     public bool BuyItem(Item item)

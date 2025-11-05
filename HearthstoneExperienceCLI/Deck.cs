@@ -25,4 +25,20 @@ public class Deck(DeckType deckType, int strength)
             return deckAsString;
         }
     }
+
+    public int SellValue
+    {
+        get
+        {
+            return this.DeckType switch
+            {
+                DeckType.Tier1 => 1,
+                DeckType.Tier2 => 2,
+                DeckType.Tier3 => 3,
+                DeckType.Tier4 => 4,
+                DeckType.OffMeta => RNG.GenerateOffMetaDeckGold(),
+                _ => throw new NotImplementedException()
+            };
+        }
+    }
 }
