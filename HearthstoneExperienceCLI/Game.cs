@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using static HearthstoneExperienceCLI.Globals;
+﻿using static HearthstoneExperienceCLI.Globals;
 
 namespace HearthstoneExperienceCLI;
 
@@ -142,7 +141,7 @@ public class Game
         }
     }
 
-    private static void ProcessItem(Player currentPlayer, Item item)
+    public static void ProcessItem(Player currentPlayer, Item item)
     {
         switch (item)
         {
@@ -243,41 +242,7 @@ public class Game
 
                 foreach (var player in _players)
                 {
-                    if (player.Gold < 3)
-                    {
-                        Console.WriteLine($"{player.Name} can't afford anything in the shop (Current Gold: {player.Gold}).");
-                        continue;
-                    }
-
-                    Console.WriteLine($"{player.Name} visits the shop (Current Gold: {player.Gold}):");
-                    while (true)
-                    {
-                        Console.WriteLine("  1. Swap decks with another player (3 Gold).");
-                        Console.WriteLine("  2. Activate a win streak -- if you win next game, you move up two ranks (3 Gold).");
-                        Console.WriteLine("  3. Buff/Nerf a card -- tier X deck gets +/-3 modifier until the next patch (4 Gold).");
-                        Console.WriteLine("  4. Server crash -- skip someone's turn (6 Gold).");
-                        Console.WriteLine("  0. Exit shop.");
-buyItemPrompt:
-                        Console.Write("Choose an item: ");
-                        int choice = int.Parse(Console.ReadLine()!);
-                        if (choice == 0)
-                        {
-                            break;
-                        }
-
-                        var item = (Item) choice;
-                        var isValidPurchase = player.BuyItem(item);
-                        if (!isValidPurchase)
-                        {
-                            Console.WriteLine("Not enough gold!");
-                            goto buyItemPrompt;
-                        }
-                        else
-                        {
-                            ProcessItem(player, item);
-                            break;
-                        }
-                    }
+                    Shop.Visit(player);
                 }
 
                 Console.WriteLine();
